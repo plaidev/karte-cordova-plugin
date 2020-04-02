@@ -1,0 +1,22 @@
+{
+  "name": "cordova-plugin-karte",
+  "version": "0.0.1",
+  "description": "KARTE Cordova Plugin",
+	"cordova": {
+    "id": "cordova-plugin-karte",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plaidev/karte-cordova-plugin.git"
+  },
+  "author": "PLAID, inc.",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/plaidev/karte-cordova-plugin/issues"
+  },
+  "homepage": "https://github.com/plaidev/karte-cordova-plugin#readme"
+}

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-karte" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>KARTE</name>
+    
+    <js-module name="constants" src="www/constants.js" />
+    <js-module name="run" src="www/run.js" />
+    <js-module name="app" src="www/app.js">
+        <clobbers target="KarteApp" />
+    </js-module>
+    <js-module name="tracker" src="www/tracker.js">
+        <clobbers target="KarteTracker" />
+    </js-module>
+    <js-module name="in_app_messaging" src="www/in_app_messaging.js">
+        <clobbers target="KarteInAppMessaging" />
+    </js-module>
+    <js-module name="variables" src="www/variables.js">
+        <clobbers target="KarteVariables" />
+    </js-module>
+    <js-module name="variable" src="www/variable.js" />
+    <js-module name="user_sync" src="www/user_sync.js">
+        <clobbers target="KarteUserSync" />
+    </js-module>
+
+    <engines>
+        <engine name="cordova" version=">=9" />
+        <engine name="cordova-android" version=">=8" />
+        <engine name="cordova-ios" version=">=5" />
+    </engines>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="KartePlugin">
+                <param name="android-package" value="io.karte.cordova.KartePlugin" />
+            </feature>
+        </config-file>
+        <resource-file src="io.karte.android.core.library.Library" target="resources/META-INF/services/io.karte.android.core.library.Library" />
+        <source-file src="src/android/KartePlugin.java" target-dir="src/io/karte/cordova" />
+        <source-file src="src/android/KarteVariables.java" target-dir="src/io/karte/cordova" />
+        <source-file src="src/android/Converter.java" target-dir="src/io/karte/cordova" />
+        <framework src="io.karte.android:core:2.0.0" />
+        <framework src="io.karte.android:inappmessaging:2.0.0" />
+        <framework src="io.karte.android:notifications:2.0.0" />
+        <framework src="io.karte.android:variables:2.0.0" />
+    </platform>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="KartePlugin">
+                <param name="ios-package" value="KartePlugin" />
+            </feature>
+        </config-file>
+        <header-file src="src/ios/KartePlugin-Bridging-Header.h" />
+        <header-file src="src/ios/KartePluginLoader.h" />
+        <source-file src="src/ios/KartePluginLoader.m" />
+        <source-file src="src/ios/KartePlugin.swift" />
+        <source-file src="src/ios/KarteVariables.swift" />
+        <dependency id="cordova-plugin-add-swift-support" version="2.0.2" />
+        <podspec>
+            <config>
+                <source url="https://cdn.cocoapods.org" />
+            </config>
+            <pods use-frameworks="true">
+                <pod name="KarteCore" spec="2.0.0" />
+                <pod name="KarteInAppMessaging" spec="2.0.0" />
+                <pod name="KarteRemoteNotification" spec="2.0.0" />
+                <pod name="KarteVariables" spec="2.0.0" /> 
+            </pods>
+        </podspec>
+    </platform>
+</plugin>
