@@ -41,7 +41,8 @@ public final class KartePlugin extends CordovaPlugin implements Library {
             } else if ("identify".equals(action)) {
                 return this.identify(callbackContext, args.optJSONObject(0));
             } else if ("view".equals(action)) {
-                return this.view(callbackContext, args.getString(0), args.optString(1), args.optJSONObject(2));
+                String title = args.isNull(1) ? null : args.getString(1);
+                return this.view(callbackContext, args.getString(0), title, args.optJSONObject(2));
             } else if ("isPresenting".equals(action)) {
                 return this.isPresenting(callbackContext);
             } else if ("dismiss".equals(action)) {
@@ -51,7 +52,9 @@ public final class KartePlugin extends CordovaPlugin implements Library {
             } else if ("unsuppress".equals(action)) {
                 return this.unsuppress(callbackContext);
             } else if ("registerFCMToken".equals(action)) {
-                return this.registerFCMToken(callbackContext, args.getString(0));
+                if (!args.isNull(0)) {
+                    return this.registerFCMToken(callbackContext, args.getString(0));
+                }
             } else if ("fetch".equals(action)) {
                 return this.fetch(callbackContext);
             } else if ("variable".equals(action)) {
@@ -61,7 +64,8 @@ public final class KartePlugin extends CordovaPlugin implements Library {
             } else if ("trackClick".equals(action)) {
                 return this.trackClick(callbackContext, args.getJSONArray(0), args.optJSONObject(1));
             } else if ("string".equals(action)) {
-                return this.getString(callbackContext, args.getString(0), args.optString(1));
+                String value = args.isNull(1) ? null : args.optString(1);
+                return this.getString(callbackContext, args.getString(0), value);
             } else if ("integer".equals(action)) {
                 return this.getInteger(callbackContext, args.getString(0), args.getLong(1));
             } else if ("double".equals(action)) {
