@@ -13,10 +13,21 @@
     "type": "git",
     "url": "git+https://github.com/plaidev/karte-cordova-plugin.git"
   },
+  "keywords": [
+    "karte",
+    "cordova",
+    "ios",
+    "android",
+    "push",
+    "notification",
+    "in-app",
+    "analytics",
+    "segmentation"
+  ],
   "author": "PLAID, inc.",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/plaidev/karte-cordova-plugin/issues"
   },
-  "homepage": "https://github.com/plaidev/karte-cordova-plugin#readme"
+  "homepage": "https://karte.io"
 }
