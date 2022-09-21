@@ -37,10 +37,10 @@
         <source-file src="src/android/KartePlugin.java" target-dir="src/io/karte/cordova" />
         <source-file src="src/android/KarteVariables.java" target-dir="src/io/karte/cordova" />
         <source-file src="src/android/Converter.java" target-dir="src/io/karte/cordova" />
-        <framework src="io.karte.android:core:2.1.0" />
-        <framework src="io.karte.android:inappmessaging:2.1.0" />
-        <framework src="io.karte.android:notifications:2.0.0" />
-        <framework src="io.karte.android:variables:2.0.0" />
+        <framework src="io.karte.android:core:2.+" />
+        <framework src="io.karte.android:inappmessaging:2.+" />
+        <framework src="io.karte.android:notifications:2.+" />
+        <framework src="io.karte.android:variables:2.+" />
     </platform>
 
     <platform name="ios">
@@ -60,9 +60,9 @@
                 <source url="https://cdn.cocoapods.org" />
             </config>
             <pods use-frameworks="true">
-                <pod name="KarteInAppMessaging" spec="2.1.0" />
-                <pod name="KarteRemoteNotification" spec="2.0.1" />
-                <pod name="KarteVariables" spec="2.0.0" /> 
+                <pod name="KarteInAppMessaging" spec="2.12.0" />
+                <pod name="KarteRemoteNotification" spec="2.8.0" />
+                <pod name="KarteVariables" spec="2.4.1" /> 
             </pods>
         </podspec>
     </platform>
