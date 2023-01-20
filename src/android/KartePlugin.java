@@ -36,10 +36,16 @@ public final class KartePlugin extends CordovaPlugin implements Library {
                 return this.renewVisitorId(callbackContext);
             } else if ("appendingQueryParameter".equals(action)) {
                 return this.appendingQueryParameter(callbackContext, args.getString(0));
+            } else if ("getUserSyncScript".equals(action)) {
+                return this.getUserSyncScript(callbackContext);
             } else if ("track".equals(action)) {
                 return this.track(callbackContext, args.getString(0), args.optJSONObject(1));
             } else if ("identify".equals(action)) {
                 return this.identify(callbackContext, args.optJSONObject(0));
+            } else if ("identifyWithUserId".equals(action)) {
+                return this.identifyWithUserId(callbackContext, args.getString(0), args.optJSONObject(1));
+            } else if ("attribute".equals(action)) {
+                return this.attribute(callbackContext, args.optJSONObject(0));
             } else if ("view".equals(action)) {
                 String title = args.isNull(1) ? null : args.getString(1);
                 return this.view(callbackContext, args.getString(0), title, args.optJSONObject(2));
@@ -147,6 +153,16 @@ public final class KartePlugin extends CordovaPlugin implements Library {
         return true;
     }
 
+    private boolean getUserSyncScript(final CallbackContext callbackContext) {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                callbackContext.success(UserSync.getUserSyncScript ());
+            }
+        });
+        return true;
+    }
+
     private boolean track(final CallbackContext callbackContext, final String name, final JSONObject values) {
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -163,6 +179,28 @@ public final class KartePlugin extends CordovaPlugin implements Library {
             @Override
             public void run() {
                 Tracker.identify(values);
+                callbackContext.success();
+            }
+        });
+        return true;
+    }
+
+    private boolean identifyWithUserId(final CallbackContext callbackContext, final String userId, final JSONObject values) {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Tracker.identify(userId, values);
+                callbackContext.success();
+            }
+        });
+        return true;
+    }
+
+    private boolean attribute(final CallbackContext callbackContext, final JSONObject values) {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Tracker.attribute(values);
                 callbackContext.success();
             }
         });
