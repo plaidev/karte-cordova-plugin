@@ -354,7 +354,7 @@ extension KartePlugin: Library {
     }
     
     static var version: String {
-        "0.0.1"
+        "0.0.2"
     }
     
     static var isPublic: Bool {
