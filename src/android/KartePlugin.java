@@ -157,7 +157,7 @@ public final class KartePlugin extends CordovaPlugin implements Library {
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                callbackContext.success(UserSync.getUserSyncScript ());
+                callbackContext.success(UserSync.getUserSyncScript());
             }
         });
         return true;
