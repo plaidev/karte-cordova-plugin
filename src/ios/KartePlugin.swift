@@ -77,6 +77,14 @@ class KartePlugin: CDVPlugin {
             self.commandDelegate.send(result, callbackId: command.callbackId)
         }
     }
+
+    @objc(getUserSyncScript:)
+    func getUserSyncScript(command: CDVInvokedUrlCommand) {
+        DispatchQueue.main.async {
+            let result = CDVPluginResult(status: .ok, messageAs: UserSync.getUserSyncScript())
+            self.commandDelegate.send(result, callbackId: command.callbackId)
+        }
+    }
     
     // MARK: KarteCore (Tracking)
     @objc(track:)
@@ -99,6 +107,30 @@ class KartePlugin: CDVPlugin {
             let values = command.argument(at: 0) as? [String: Any] ?? [:]
             
             Tracker.identify(JSONConvertibleConverter.convert(values))
+            self.commandDelegate.send(.noResult, callbackId: command.callbackId)
+        }
+    }
+
+    @objc(identifyWithUserId:)
+    func identifyWithUserId(command: CDVInvokedUrlCommand) {
+        DispatchQueue.main.async {
+            guard let userId = command.argument(at: 0) as? String else {
+                self.commandDelegate.send(.errorMissingArgument, callbackId: command.callbackId)
+                return
+            }
+            let values = command.argument(at: 1) as? [String: Any] ?? [:]
+
+            Tracker.identify(userId, JSONConvertibleConverter.convert(values))
+            self.commandDelegate.send(.noResult, callbackId: command.callbackId)
+        }
+    }
+
+    @objc(attribute:)
+    func attribute(command: CDVInvokedUrlCommand) {
+        DispatchQueue.main.async {
+            let values = command.argument(at: 0) as? [String: Any] ?? [:]
+
+            Tracker.attribute(JSONConvertibleConverter.convert(values))
             self.commandDelegate.send(.noResult, callbackId: command.callbackId)
         }
     }
@@ -322,7 +354,7 @@ extension KartePlugin: Library {
     }
     
     static var version: String {
-        "0.0.1"
+        "0.0.2"
     }
     
     static var isPublic: Bool {
