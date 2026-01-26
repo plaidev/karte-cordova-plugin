@@ -1,0 +1,69 @@
+name: Publish package to npmjs.com
+on:
+  workflow_dispatch:
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: 'npmjs.com'
+    timeout-minutes: 40
+    # Publish on public repository.
+    if: github.repository == 'plaidev/karte-cordova-plugin'
+    permissions:
+      id-token: write # Required for OIDC
+      contents: write # Required for tagging.
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Setup Node.js
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+      # Ensure npm 11.5.1 or later is installed for trusted publishing.
+      - name: Install latest npm
+        run: npm install -g npm@latest
+      - name: Configure Git
+        run: |
+          git config --global user.email "git@users.noreply.github.com"
+          git config --global user.name "github actions"
+      # Check if version already exists on npm
+      - name: Check version
+        id: check_version
+        run: |
+          PACKAGE_VERSION=$(jq -r '.version' package.json)
+          echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          if npm view cordova-plugin-karte@$PACKAGE_VERSION version 2>/dev/null; then
+            echo "Version $PACKAGE_VERSION already exists on npm. Exiting."
+            exit 0
+          else
+            echo "Version $PACKAGE_VERSION does not exist on npm"
+          fi
+      - name: Publish package
+        run: npm publish
+      - name: Create version tag
+        run: |
+          git fetch --tags
+          TAG_NAME="v${{ steps.check_version.outputs.version }}"
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists"
+          else
+            git tag "$TAG_NAME"
+            git push origin "$TAG_NAME"
+            echo "Created and pushed tag $TAG_NAME"
+          fi
+      - name: Notify Slack on success
+        if: success()
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: |
+            ✅ Successfully published cordova-plugin-karte@${{ steps.check_version.outputs.version }} to npmjs.com
+          SLACK_COLOR: success
+      - name: Notify Slack on failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: |
+            ❌ Failed to publish package to npmjs.com
+          SLACK_COLOR: failure
