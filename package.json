@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-karte",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "KARTE Cordova Plugin",
   "cordova": {
     "id": "cordova-plugin-karte",
