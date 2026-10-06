@@ -81,7 +81,9 @@ class KartePlugin: CDVPlugin {
     @objc(getUserSyncScript:)
     func getUserSyncScript(command: CDVInvokedUrlCommand) {
         DispatchQueue.main.async {
-            let result = CDVPluginResult(status: .ok, messageAs: UserSync.getUserSyncScript())
+            let result = UserSync.getUserSyncScript().map {
+                CDVPluginResult(status: .ok, messageAs: $0)
+            } ?? CDVPluginResult(status: .ok)
             self.commandDelegate.send(result, callbackId: command.callbackId)
         }
     }
@@ -251,7 +253,9 @@ class KartePlugin: CDVPlugin {
                 string = self.variables.string(forKey: key)
             }
             
-            let result = CDVPluginResult(status: .ok, messageAs: string)
+            let result = string.map {
+                CDVPluginResult(status: .ok, messageAs: $0)
+            } ?? CDVPluginResult(status: .ok)
             self.commandDelegate.send(result, callbackId: command.callbackId)
         }
     }
@@ -322,7 +326,9 @@ class KartePlugin: CDVPlugin {
                 array = self.variables.array(forKey: key)
             }
             
-            let result = CDVPluginResult(status: .ok, messageAs: array)
+            let result = array.map {
+                CDVPluginResult(status: .ok, messageAs: $0)
+            } ?? CDVPluginResult(status: .ok)
             self.commandDelegate.send(result, callbackId: command.callbackId)
         }
     }
@@ -342,7 +348,9 @@ class KartePlugin: CDVPlugin {
                 object = self.variables.object(forKey: key)
             }
             
-            let result = CDVPluginResult(status: .ok, messageAs: object)
+            let result = object.map {
+                CDVPluginResult(status: .ok, messageAs: $0)
+            } ?? CDVPluginResult(status: .ok)
             self.commandDelegate.send(result, callbackId: command.callbackId)
         }
     }
