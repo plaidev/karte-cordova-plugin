@@ -1,4 +1,20 @@
-## 0.0.3 - xxxx.xx.xx
+## 0.0.3 - 2026.10.06
+
+**💊FIXED**
+
+* cordova-ios 8.x でiOS向けプラグインのビルドに失敗する問題を修正しました。
+
+{% hint style="warning" %}
+cordova-ios 7.x以前では、アプリの `config.xml` への`SwiftVersion`の設定が必要になります。
+
+{% code overflow="wrap" %}
+```xml
+<platform name="ios">
+    <preference name="SwiftVersion" value="5.0" />
+</platform>
+```
+{% endcode %}
+{% endhint %}
 
 ## 0.0.2 - 2022.02.02
 
